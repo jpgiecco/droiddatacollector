@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="margin_top">2dp</dimen>
+	<dimen name="margin_right">2dp</dimen>
+	<dimen name="margin_left">2dp</dimen>
+	<dimen name="margin_bottom">2dp</dimen>
+</resources>

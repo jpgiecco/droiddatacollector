@@ -1,0 +1,7 @@
+<resources>
+	<dimen name="howto1_TopPiece_top">40dip</dimen>
+	<dimen name="howto1_Piece_left">38dip</dimen>
+	<dimen name="howto1_BottonPiece_top">80dip</dimen>
+	<dimen name="howto3_TopPiece_top">20dip</dimen>
+	<dimen name="howto3_BottomPiece_top">120dip</dimen>
+</resources>

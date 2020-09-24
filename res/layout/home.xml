@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/FrameLayout1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/ft_background" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="@dimen/margin_top"
+        layout="@layout/top_banner" />
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/ButtonTomarMediciones"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:text="Tomar Mediciones"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ButtonMedicionesTomadas"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Mediciones Tomadas"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ButtonContadores"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Contadores"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ButtonExportar"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Exportar"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ButtonSettings"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Configuración"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/ButtonSalir"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp"
+                android:text="Salir"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

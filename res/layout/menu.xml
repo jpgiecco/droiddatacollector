@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/search_element"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/menu_search"/>
+    
+    <item
+        android:id="@+id/first_element"
+        android:orderInCategory="120"
+        android:showAsAction="never"
+        android:title="@string/menu_first"/>
+
+    <item
+        android:id="@+id/last_element"
+        android:orderInCategory="140"
+        android:showAsAction="never"
+        android:title="@string/menu_last"/>
+</menu>

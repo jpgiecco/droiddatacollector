@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="margin_top">10dp</dimen>
+	<dimen name="margin_right">6dp</dimen>
+	<dimen name="margin_left">6dp</dimen>
+	<dimen name="margin_bottom">7dp</dimen>
+</resources>

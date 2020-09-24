@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Droid Data Collector</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_search">&lt;&lt; Buscar Medidor >></string>
+    <string name="menu_first">&lt;&lt;Primer Elemento >></string>
+    <string name="menu_last">&lt;&lt; Ultimo Elemento >></string>
+    <string name="title_activity_product_navigation">ProductNavigationActivity</string>
+    <string name="title_activity_main">Droid Data Collector</string>
+    <string name="auto_nav_enabled">Auto Nav Habilitada</string>
+    <string name="auto_nav_disabled">Auto Nav Deshabilitada</string>
+    <string name="title_activity_home">DroidDataCollector</string>
+
+</resources>

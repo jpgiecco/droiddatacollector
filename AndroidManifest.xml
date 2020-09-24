@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ar.com.eurekaconsulting.elementControl"
+    android:versionCode="29"
+    android:versionName="2.20" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.GetValuesActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.TakenValuesActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.CountersActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.SelectNewActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_select_new"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.util.LogCollector"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.HomeActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="ar.com.eurekaconsulting.elementControl.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@android:style/Theme.Black"  >
+        </activity>
+        <activity android:name="net.bgreco.DirectoryPicker" 
+            android:theme="@android:style/Theme.Black"/>
+    </application>
+
+</manifest>

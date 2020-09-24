@@ -1,0 +1,5 @@
+<resources>
+	<dimen name="board_height">320dip</dimen>
+	<dimen name="howto1_width">247dip</dimen>
+	<dimen name="howto1_height">340dip</dimen>
+</resources>
