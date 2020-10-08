@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "ar.com.eurekaconsulting.elementControl",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 40,
+      "versionName": "4.00",
+      "enabled": true,
+      "outputFile": "droiddatacollector-release.apk"
+    }
+  ]
+}

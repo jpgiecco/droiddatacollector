@@ -1,8 +1,0 @@
-<resources>
-	<dimen name="howto1_TopPiece_top">80dip</dimen>
-	<dimen name="howto1_Piece_left">75dip</dimen>
-	<dimen name="howto1_BottonPiece_top">158dip</dimen>
-	<dimen name="howto3_TopPiece_top">50dip</dimen>
-	<dimen name="howto3_BottomPiece_top">250dip</dimen>
-	<dimen name="home_btn_top">50dip</dimen>
-</resources>
