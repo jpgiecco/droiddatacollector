@@ -21,12 +21,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="ar.com.eurekaconsulting.elementControl.TakenValuesActivity"
-            android:configChanges="orientation"
-            android:label="@string/title_activity_main"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="ar.com.eurekaconsulting.elementControl.CountersActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_main"

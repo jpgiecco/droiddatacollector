@@ -168,7 +168,7 @@
         android:layout_marginRight="@dimen/margin_right"
         android:layout_weight="1"
         android:checked="true"
-        android:text="Siguiente"
+        android:text="Guardar"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -183,19 +183,6 @@
         android:text="Ingresar Novedad"
         android:textSize="12sp"
         android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/buttonTakeAgain"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_weight="1"
-        android:text="Tomar la Medición"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
     
     <Button
         android:id="@+id/buttonSearch"

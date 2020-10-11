@@ -28,6 +28,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private static String[] validDevices = {"b778fba8e2ac34eb", "fe4b2ab7a6c3d0dd", "61039c4b9995ddda", "e1b812772e8b663c", "4b9e3f8c57fd51eb", "ed1e742669486af5", "1f5351a6ce25dd09", "66a3d3e86dc5c8cd"};
 
 	private static final int REQUEST_CODE_EXPORT_MAIL = 1;
+	public static final String ISGETVALUES = "ISGETVALUES";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,13 @@ public class HomeActivity extends Activity implements OnClickListener {
 	
 	private void getValues() {
 		Intent i = new Intent(this, GetValuesActivity.class);
+		i.putExtra(HomeActivity.ISGETVALUES, true);
 		this.startActivity(i);
 	}
 	
 	private void takenValues() {
-		Intent i = new Intent(this, TakenValuesActivity.class);
+		Intent i = new Intent(this, GetValuesActivity.class);
+		i.putExtra(HomeActivity.ISGETVALUES, false);
 		this.startActivity(i);
 	}
 

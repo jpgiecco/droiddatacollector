@@ -1,5 +1,6 @@
 package ar.com.eurekaconsulting.elementControl;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -30,6 +31,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import ar.com.eurekaconsulting.elementControl.model.Element;
 import ar.com.eurekaconsulting.elementControl.util.ElementListLoader;
@@ -44,26 +47,37 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 
 	private static final int SWIPE_THRESHOLD = 100;
 	private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-	private static final int REQUEST_CODE = 1;
-	private static final int REQUEST_CODE_TWICE = 2;
+	//private static final int REQUEST_CODE = 1;
+	//private static final int REQUEST_CODE_TWICE = 2;
 	private static final int REQUEST_CODE_NEW = 3;
-	private static final Long READ_ELEMENT_CERO_VALUE = -1L;
+	//private static final Long READ_ELEMENT_CERO_VALUE = -1L;
 	private long delayForReadingInMillis;
 	private long delayForNotificationsInMillis;
 	private boolean voiceRecognition;
 	private int elementIndex = -1;
 	private Element currentElement;
-	private Handler postDelayHandler;
-	private Runnable postDelayRunnable;
+	//private Handler postDelayHandler;
+	//private Runnable postDelayRunnable;
 	private EditText elementActualValueEditText;
 	private boolean inputKeyFirstRecognizement = true;
-	private boolean searchElementByCodeWindowsOpened = false;
+	//private boolean searchElementByCodeWindowsOpened = false;
+	private boolean isGetValues;
+	private List<Element> elements;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.get_values);
+
+		Intent intent = this.getIntent();
+		this.isGetValues = intent.getBooleanExtra(HomeActivity.ISGETVALUES, true);
+
+		if (isGetValues) {
+			elements = ElementListLoader.getPendingElements();
+		} else {
+			elements = new ArrayList<Element>(ElementListLoader.getTakenElements().values());
+		}
 
 		SharedPreferences sharedPref = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -73,18 +87,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 				.getString("delay_for_notifications", "4000"));
 		this.voiceRecognition = sharedPref.getBoolean("voice_recognition",
 				false);
-
-		/* Manual input button */
-		Button buttonTakeAgain = (Button) findViewById(R.id.buttonTakeAgain);
-		buttonTakeAgain.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				GetValuesActivity.this.removeCallBacks();
-				GetValuesActivity.this.startVoiceRecognitionActivity(
-						!GetValuesActivity.this.inputKeyFirstRecognizement,
-						true);
-			}
-		});
 		
 		/* Menu Busqueda button */
 		Button buttonSearch = (Button) findViewById(R.id.buttonSearch);
@@ -100,7 +102,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		btnNovedad.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				GetValuesActivity.this.removeCallBacks();
 				GetValuesActivity.this.selectNew();
 			}
 		});
@@ -110,7 +111,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		btnSiguiente.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				GetValuesActivity.this.removeCallBacks();
+				GetValuesActivity.this.saveElement();
 				GetValuesActivity.this.loadNextElement();
 			}
 		});
@@ -126,15 +127,14 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 
 		this.elementActualValueEditText = (EditText) findViewById(R.id.editTextRealStock);
 
-		this.elementActualValueEditText
-				.setOnClickListener(new OnClickListener() {
+		this.elementActualValueEditText.setOnTouchListener(new View.OnTouchListener() {
 
-					@Override
-					public void onClick(View arg0) {
-						GetValuesActivity.this.removeCallBacks();
-						// GetValuesActivity.this.autoNav.setChecked(false);
-					}
-				});
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				GetValuesActivity.this.inactivateButtons();
+				return false;
+			}
+		});
 
 		this.elementActualValueEditText
 				.setOnEditorActionListener(new OnEditorActionListener() {
@@ -181,51 +181,53 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 								 * Store.saveElement(GetValuesActivity.this
 								 * .getCurrentElement());
 								 */
-
+								GetValuesActivity.this.activateButtons();
 								return true;
 							} catch (Exception e) {
-								// GetValuesActivity.this.autoNav.setChecked(true);
+								GetValuesActivity.this.activateButtons();
 								return false;
-								// GetValuesActivity.this.getCurrentElement().setActualValue(0L);
-								// Store.saveElement(GetValuesActivity.this.getCurrentElement());
 							}
 						} else {
+							GetValuesActivity.this.activateButtons();
 							return false;
 						}
 					}
 
 				});
 
-		/*
-		 * this.elementActualValueEditText .addTextChangedListener(new
-		 * TextWatcher() {
-		 * 
-		 * @Override public void afterTextChanged(Editable editable) { /*try {
-		 * GetValuesActivity.this .getCurrentElement() .setActualValue(
-		 * Long.parseLong(editable.toString()));
-		 * Store.saveElement(GetValuesActivity.this .getCurrentElement());
-		 * GetValuesActivity.this.loadNextElementDelayed(); } catch (Exception
-		 * e) { //
-		 * GetValuesActivity.this.getCurrentElement().setActualValue(0L); //
-		 * Store.saveElement(GetValuesActivity.this.getCurrentElement()); } }
-		 * 
-		 * @Override public void beforeTextChanged(CharSequence arg0, int arg1,
-		 * int arg2, int arg3) {
-		 * 
-		 * }
-		 * 
-		 * @Override public void onTextChanged(CharSequence arg0, int arg1, int
-		 * arg2, int arg3) { GetValuesActivity.this.autoNav.setChecked(false);
-		 * GetValuesActivity.this.removeCallBacks(); }
-		 * 
-		 * });
-		 */
-
 		// Gesture for navigation
 		gesturedetector = new GestureDetector(this, this);
 
 		this.loadNextElement();
 
+	}
+
+	private void inactivateButtons() {
+		/* Menu Busqueda button */
+		Button buttonSearch = (Button) findViewById(R.id.buttonSearch);
+		buttonSearch.setEnabled(false);
+
+		/* Select New Button */
+		Button btnNovedad = (Button) findViewById(R.id.ButtonIngresarNovedad);
+		btnNovedad.setEnabled(false);
+
+		/* Next Button */
+		Button btnSiguiente = (Button) findViewById(R.id.ButtonSiguiente);
+		btnSiguiente.setEnabled(false);
+	}
+
+	private void activateButtons() {
+		/* Menu Busqueda button */
+		Button buttonSearch = (Button) findViewById(R.id.buttonSearch);
+		buttonSearch.setEnabled(true);
+
+		/* Select New Button */
+		Button btnNovedad = (Button) findViewById(R.id.ButtonIngresarNovedad);
+		btnNovedad.setEnabled(true);
+
+		/* Next Button */
+		Button btnSiguiente = (Button) findViewById(R.id.ButtonSiguiente);
+		btnSiguiente.setEnabled(true);
 	}
 
 	private void selectNew() {
@@ -301,29 +303,21 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		//}
 	}
 
-	public void loadNextElementRec() {
-		if (elementIndex < ElementListLoader.getPendingElements().size() - 1) {
-			elementIndex++;
-		} else {
-			elementIndex = 0;
-		}
-		this.updateElement(elementIndex);
+	public void saveElement(){
+		Store.saveElement(this.getCurrentElement());
 	}
 
 	public void loadNextElement() {
-		Store.saveElement(this.getCurrentElement());
-		if (elementIndex < ElementListLoader.getPendingElements().size() - 1) {
+		if (elementIndex < this.elements.size() - 1) {
 			elementIndex++;
 		} else {
 			elementIndex = 0;
 		}
-		//}
 		this.updateElement(elementIndex);
 	}
 
 	private void updateElement(int elementIndex) {
-		this.currentElement = ElementListLoader.getPendingElements().get(
-				elementIndex);
+		this.currentElement = this.elements.get(elementIndex);
 
 		if (this.currentElement.isDebt()) {
 			this.showDebtAlert();
@@ -370,9 +364,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		TextView elementUsuario = (TextView) findViewById(R.id.TextViewUsuario);
 		elementUsuario.setText(this.getCurrentElement().getUsuario());
 
-		/*if (this.autoNav.isChecked()) {
-			this.startVoiceRecognitionDelayed(false, false);
-		}*/
 	}
 
 	private void showDebtAlert() {
@@ -414,7 +405,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		if (elementIndex > 0) {
 			elementIndex--;
 		} else {
-			elementIndex = ElementListLoader.getPendingElements().size();
+			elementIndex = this.elements.size();
 		}
 		this.updateElement(elementIndex);
 	}
@@ -449,48 +440,12 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 	}
 
 	/**
-	 * Fire an intent to start the voice recognition activity.
-	 * 
-	 * @param force
-	 * 
-	 * @param b
-	 */
-	public void startVoiceRecognitionActivity(boolean secondRecognizement,
-			boolean force) {
-		if (force || secondRecognizement
-				|| (this.getCurrentElement().getActualValue() == 0L)) {
-			Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-			intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-					RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-			if (secondRecognizement) {
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"Ingrese nuevamente la medición para "
-								+ this.getCurrentElement().getDescription()
-										.toUpperCase());
-				startActivityForResult(intent, REQUEST_CODE_TWICE);
-			} else {
-				intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-						"Ingrese la medición para "
-								+ this.getCurrentElement().getDescription()
-										.toUpperCase());
-				startActivityForResult(intent, REQUEST_CODE);
-			}
-		}
-	}
-
-	/**
 	 * Handle the results from the voice recognition activity.
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
-			case REQUEST_CODE:
-				this.processFirstRecognizement(data);
-				break;
-			case REQUEST_CODE_TWICE:
-				this.processSecondRecognizement(data);
-				break;
 			case REQUEST_CODE_NEW:
 				this.processNewSelection(data);
 				break;
@@ -510,39 +465,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 					NewsListLoader.getNewByCode(codigoNovedad));
 			Store.saveElement(this.getCurrentElement());
 			this.updateElement(this.elementIndex);
-		}
-
-		if (this.voiceRecognition) {
-			this.startVoiceRecognitionDelayed(false, false);
-		}
-	}
-
-	private void processSecondRecognizement(Intent data) {
-		// Populate the wordsList with the String values the recognition
-		// engine thought it heard
-		ArrayList<String> matches = data
-				.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-		try {
-			Long recognizedNumber = Long.parseLong(StringMatchesAnalizer
-					.getInstance().getBestMatch(matches));
-			this.checkSecondInput(recognizedNumber);
-		} catch (NumberFormatException nfe) {
-			this.startVoiceRecognitionActivity(true, false);
-		}
-	}
-
-	private void processFirstRecognizement(Intent data) {
-		// Populate the wordsList with the String values the recognition
-		// engine thought it heard
-		ArrayList<String> matches = data
-				.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-		try {
-			Long recognizedNumber = Long.parseLong(StringMatchesAnalizer
-					.getInstance().getBestMatch(matches));
-			this.checkFirstInput(recognizedNumber);
-
-		} catch (NumberFormatException nfe) {
-			this.startVoiceRecognitionActivity(false, false);
 		}
 	}
 
@@ -576,22 +498,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		GetValuesActivity.this.inputKeyFirstRecognizement = true;
 	}
 
-	private void startVoiceRecognitionDelayed(
-			final boolean secondrecognizement, final boolean force) {
-		if (this.voiceRecognition) {
-			this.removeCallBacks();
-			this.postDelayHandler = new Handler();
-			this.postDelayRunnable = new Runnable() {
-				public void run() {
-					GetValuesActivity.this.startVoiceRecognitionActivity(
-							secondrecognizement, force);
-				}
-			};
-			this.postDelayHandler.postDelayed(this.postDelayRunnable,
-					this.delayForReadingInMillis);
-		}
-	}
-
 	private void initiatePopupWindow(String text,
 			final boolean secondRecognizement) {
 		try {
@@ -607,16 +513,6 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 
 			// now that the dialog is set up, it's time to show it
 			this.dialog.show();
-
-			// new Thread(PopupWindowThread.getInstance(this)).start();
-			new Handler().postDelayed(new Runnable() {
-				public void run() {
-					GetValuesActivity.this.getDialog().dismiss();
-					GetValuesActivity.this.postDelayHandler = new Handler();
-					GetValuesActivity.this.startVoiceRecognitionDelayed(
-							secondRecognizement, false);
-				}
-			}, this.delayForNotificationsInMillis);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -667,24 +563,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 					.getMaxDifference();
 	}
 
-	@Override
-	protected void onDestroy() {
-		this.removeCallBacks();
-		super.onDestroy();
-	}
-
-	public void removeCallBacks() {
-		if (this.postDelayHandler != null) {
-			this.postDelayHandler.removeCallbacks(this.postDelayRunnable);
-		}
-	}
-
-	@Override
-	public void onBackPressed() {
-		this.removeCallBacks();
-		super.onBackPressed();
-	}
-
+	@SuppressLint("ResourceType")
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -720,14 +599,14 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 	}
 
 	private void loadLastElement() {
-		elementIndex = ElementListLoader.getPendingElements().size();
+		elementIndex = this.elements.size();
 		loadPreviousElement();
 		// GetValuesActivity.this.autoNav.setChecked(true);
 	}
 
 	private void searchByElementCode() {
 
-		this.searchElementByCodeWindowsOpened = true;
+		//this.searchElementByCodeWindowsOpened = true;
 
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
@@ -747,8 +626,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 				}
 				GetValuesActivity.this
 						.updateElement(GetValuesActivity.this.elementIndex);
-				GetValuesActivity.this.searchElementByCodeWindowsOpened = false;
-				// GetValuesActivity.this.autoNav.setChecked(true);
+				//GetValuesActivity.this.searchElementByCodeWindowsOpened = false;
 			}
 
 		});
@@ -756,8 +634,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
-						GetValuesActivity.this.searchElementByCodeWindowsOpened = false;
-						// GetValuesActivity.this.autoNav.setChecked(true);
+						//GetValuesActivity.this.searchElementByCodeWindowsOpened = false;
 					}
 				});
 
@@ -767,7 +644,7 @@ public class GetValuesActivity extends Activity implements OnGestureListener {
 	private int searchByElementCode(String code) {
 		int index = 0;
 		int result = -1;
-		for (Element element : ElementListLoader.getPendingElements()) {
+		for (Element element : this.elements) {
 			if (element.getCode().equals(code)) {
 				result = index;
 			}

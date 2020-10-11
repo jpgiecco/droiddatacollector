@@ -160,15 +160,14 @@
         android:textSize="16sp"
         android:layout_marginBottom="10dp"/>
 
-    <ToggleButton
+    <Button
         android:id="@+id/ButtonSiguiente"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"
         android:layout_weight="1"
-        android:checked="true"
-        android:text="Siguiente"
+        android:text="Guardar"
         android:textStyle="bold" />
 
     <Button
@@ -182,17 +181,6 @@
         android:text="Ingresar Novedad"
         android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/buttonTakeAgain"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_weight="1"
-        android:text="Tomar la Medición"
-        android:textStyle="bold" />
-    
     <Button
         android:id="@+id/buttonSearch"
         android:layout_width="fill_parent"

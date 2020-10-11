@@ -160,17 +160,14 @@
        android:textAppearance="?android:attr/textAppearanceLarge"
        android:textSize="10sp" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/toggleButtonAutoNav"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"
         android:layout_weight="1"
-        android:checked="true"
-        android:text="ToggleButton"
-        android:textOff="@string/auto_nav_disabled"
-        android:textOn="@string/auto_nav_enabled"
+        android:text="Guardar"
         android:textSize="12sp"
         android:textStyle="bold" />
 
@@ -183,18 +180,6 @@
         android:layout_marginRight="@dimen/margin_right"
         android:layout_weight="1"
         android:text="Ingresar Novedad"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/buttonTakeAgain"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_weight="1"
-        android:text="Tomar la Medición"
         android:textSize="12sp"
         android:textStyle="bold" />
     
